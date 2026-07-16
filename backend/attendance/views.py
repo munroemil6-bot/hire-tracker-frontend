@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from accounts.permissions import IsEmployee
 
-# Create your views here.
+class AttendanceView(generics.ListAPIView):
+
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
+
+    permission_classes = [IsEmployee]
