@@ -1,13 +1,11 @@
-from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+
 from .models import Department
 from .serializers import DepartmentSerializer
 
-from accounts.permissions import IsAdmin
 
-
-class DepartmentCreateView(generics.CreateAPIView):
-
+class DepartmentViewSet(viewsets.ModelViewSet):
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
-
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAuthenticated]

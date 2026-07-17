@@ -26,8 +26,15 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("api/", include("accounts.urls")),
+    path("api/departments/", include("departments.urls")),
+    path("api/jobs/", include("jobs.urls")),
+    path("api/applicants/", include("applicants.urls")),
+    path("api/employees/", include("employees.urls")),
+    path("api/attendance/", include("attendance.urls")),
+    path("api/accomplishments/", include("accomplishments.urls")),
+    path("api/notifications/", include("notifications.urls")),
+    path("api/skills/", include("skills.urls")),
 
     path("api/login/", TokenObtainPairView.as_view(), name="login"),
-
     path("api/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]

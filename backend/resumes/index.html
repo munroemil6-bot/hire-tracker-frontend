@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+
+{% block title %}Matrix Enterprises{% endblock %}
+
+{% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: linear-gradient(135deg, #0D5C8B 0%, #003152 45%, #001220 100%);">
+    <div class="container">
+        <a class="navbar-brand fw-bold fs-5" href="/">MATRIX</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-center gap-3">
+            <li class="nav-item"><a class="nav-link text-white" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="/services">Services</a></li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+
+    <section class="py-5" style="background: linear-gradient(135deg,#0D5C8B 0%,#003152 45%,#001220 100%);min-height: 80vh; display: flex; align-items: center;">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <span class="d-inline-flex align-items-center gap-2 badge rounded-pill bg-white text-primary px-3 py-2 mb-3 shadow"><i class="bi bi-shield-check"></i>Est. 2020 · Nairobi, Kenya</span>
+                    <h1 class="display-3 fw-bold text-white mb-4">Securing the<span style="color:#ADD8E6;">digital future</span>of modern businses.</h1>
+                    <p class="lead text-white opacity-75 mb-5">
+                        Matrix Enterprises delivers software security, reliable development, and strategic guidance for ambitious teams.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a href="/services" class="btn btn-light btn-lg px-5 rounded-pill">Explore Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+        <div class="col-lg-6 text-center">
+            <span class="section-title d-block mb-2 fw-semibold small text-uppercase text-white">Why Choose Us</span>
+            <h2 class="fw-bold text-white display-6">Key Features</h2>
+            <hr class="mx-auto my-4 border-top border-white w-25" />
+        </div>
+        </div>
+        <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80" class="card-img-top img-fluid" alt="Privacy First" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Privacy-First</h3>
+                <p class="text-secondary small lh-lg">Your data is yours. We protect it with industry-leading encryption and security protocols.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="card-img-top img-fluid" alt="Expert Team" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Expert Team</h3>
+                <p class="text-secondary small lh-lg">Founded by Myles Munroe and trusted collaborators with years of security expertise.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80" class="card-img-top img-fluid" alt="24/7 Support" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">24/7 Support</h3>
+                <p class="text-secondary small lh-lg">Always here when you need us. Round-the-clock monitoring and incident response.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&q=80" class="card-img-top img-fluid" alt="Proven Track Record" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Proven Track Record</h3>
+                <p class="text-secondary small lh-lg">Trusted by hundreds of organisations to protect their digital assets and privacy.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <section id="story" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+        <div class="col-lg-6 text-center">
+            <span class="section-title d-block mb-2 fw-semibold small text-uppercase text-white">Founded 2020</span>
+            <h2 class="fw-bold text-white display-6">How Matrix Came to Be</h2>
+            <hr class="mx-auto my-4 border-top border-white w-25" />
+        </div>
+        </div>
+        <div class="row g-5 align-items-start">
+        <div class="col-lg-6">
+            <p class="mb-4 text-white lh-lg">Matrix Enterprises was established in 2020 by Myles Munroe after a deeply personal experience with being hacked. That moment made him realise how fragile digital privacy can be, and it sparked a mission to help people and organisations protect what matters most.</p>
+            <p class="mb-4 text-white lh-lg">What began as a response to a painful personal setback grew into a purpose-driven company focused on privacy, security, and trust. Myles wanted to build something that would help others stay safe online and feel confident in the systems they use every day.</p>
+            <p class="text-white lh-lg">With support from friends like Wesley Waoudo and a close circle of trusted collaborators, Matrix was created to turn that experience into a mission: securing privacy, strengthening digital resilience, and making security feel accessible.</p>
+        </div>
+        <div class="col-lg-6">
+            <div class="border-start border-4 border-white ps-4">
+            <div class="mb-4">
+                <h3 class="h6 fw-bold text-white">2020</h3>
+                <p class="text-white mb-0">Matrix Enterprises was founded in Nairobi by Myles Munroe after a personal hacking experience inspired a mission for digital privacy and protection.</p>
+            </div>
+            <div class="mb-4">
+                <h3 class="h6 fw-bold text-white">2021</h3>
+                <p class="text-white mb-0">The company began building its first security-focused solutions and helping early clients strengthen their online safety.</p>
+            </div>
+            <div class="mb-4">
+                <h3 class="h6 fw-bold text-white">2022</h3>
+                <p class="text-white mb-0">Matrix expanded its reach by supporting more individuals and businesses with practical, privacy-first security services.</p>
+            </div>
+            <div class="mb-4">
+                <h3 class="h6 fw-bold text-white">2023</h3>
+                <p class="text-white mb-0">The team grew through partnerships, collaborations, and a deeper focus on trusted digital protection.</p>
+            </div>
+            <div>
+                <h3 class="h6 fw-bold text-white">2024</h3>
+                <p class="text-white mb-0">Matrix continued to grow as a company built on personal experience, resilience, and a strong commitment to protecting privacy.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+        <div class="col-lg-5 text-center">
+            <span class="section-title d-block mb-2 fw-semibold small text-uppercase text-white">What Drives Us</span>
+            <h2 class="fw-bold text-white display-6">Core Values</h2>
+            <hr class="mx-auto my-4 border-top border-white w-25" />
+        </div>
+        </div>
+        <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="{{ url_for('static', filename='images/feature-5.svg') }}" class="card-img-top img-fluid" alt="Security First" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Security First</h3>
+                <p class="text-secondary small lh-lg">Every decision is filtered through one question: does this make our clients safer?</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="{{ url_for('static', filename='images/feature-6.svg') }}" class="card-img-top img-fluid" alt="Local Expertise" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Local Expertise</h3>
+                <p class="text-secondary small lh-lg">We understand the African technology landscape, constraints, regulations, and growth opportunities.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="{{ url_for('static', filename='images/feature-7.svg') }}" class="card-img-top img-fluid" alt="Radical Transparency" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Radical Transparency</h3>
+                <p class="text-secondary small lh-lg">No hidden costs, no jargon as smoke screen. Clients know exactly what we are doing and why.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card h-100 shadow-sm border-0 overflow-hidden" style="background: rgba(255,255,255,0.95);">
+            <img src="{{ url_for('static', filename='images/feature-8.svg') }}" class="card-img-top img-fluid" alt="Long-Term Partnership" style="height: 160px; object-fit: cover; width: 100%;">
+            <div class="card-body">
+                <h3 class="h6 fw-bold text-primary mb-2">Long-Term Partnership</h3>
+                <p class="text-secondary small lh-lg">We do not disappear after delivery because client success is our reputation.</p>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <section class="text-center py-5">
+    <div class="container">
+        <h2 class="fw-bold text-white display-6 mb-3">Ready to secure your systems?</h2>
+        <p class="mb-5 text-white mx-auto w-100 w-md-50">Explore what Matrix Enterprises can do for your organisation — from penetration testing to full-stack software delivery.</p>
+        <a href="/services" class="btn btn-light btn-lg px-4">View Our Services</a>
+    </div>
+    </section>
+
+    <footer class="py-4" style="background: linear-gradient(135deg, #0D5C8B 0%, #003152 45%, #001220 100%);">
+    <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <span class="fw-bold text-white">MATRIX ENTERPRISES</span>
+        <span class="text-white small">2026 Matrix Enterprises.</span>
+        <div class="d-flex gap-4">
+        <a href="/" class="text-white small text-decoration-none">Home</a>
+        <a href="/services" class="text-white small text-decoration-none">Services</a>
+        </div>
+    </div>
+    </footer>
+
+{% endblock %}
