@@ -1,58 +1,18 @@
-import { useState } from "react";
-import api from "../api/axios";
+import axios from 'axios';
 
-function Register() {
+const api = axios.create({
+  baseURL: 'http://127.0.0.1:8000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-    const [formData, setFormData] = useState({
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
-        username: "",
-
-        email: "",
-
-        password: "",
-
-        phone: "",
-
-        role: "APPLICANT"
-
-    });
-
-    const handleSubmit = async (e) => {
-
-        e.preventDefault();
-
-        try {
-
-            await api.post("register/", formData);
-
-            alert("Registration Successful");
-
-        }
-
-        catch (error) {
-
-            console.log(error);
-
-        }
-
-    };
-
-    return (
-
-        <form onSubmit={handleSubmit}>
-
-            {/* form inputs */}
-
-            <button type="submit">
-
-                Register
-
-            </button>
-
-        </form>
-
-    );
-
-}
-
-export default Register;
+export default api;
