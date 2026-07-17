@@ -1,13 +1,20 @@
 from django.db import models
+
 from accounts.models import User
 from jobs.models import Job
 from skills.models import Skill
 
+
 class Applicant(models.Model):
-    STATUS_CHOICES = [
-        ("Pending", "Pending"),
-        ("Approved", "Approved"),
-        ("Rejected", "Rejected"),
+
+    STATUS = [
+
+        ("PENDING", "Pending"),
+
+        ("APPROVED", "Approved"),
+
+        ("REJECTED", "Rejected"),
+
     ]
 
     user = models.OneToOneField(
@@ -17,19 +24,26 @@ class Applicant(models.Model):
 
     job = models.ForeignKey(
         Job,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="applications"
     )
 
-    resume = models.FileField(upload_to="resumes/")
+    skills = models.ManyToManyField(
+        Skill,
+        blank=True
+    )
+
+    resume = models.FileField(
+        upload_to="resumes/"
+    )
+
     cover_letter = models.TextField()
 
-    status = models.CharField(
+    application_status = models.CharField(
         max_length=20,
-        choices=STATUS_CHOICES,
-        default="Pending"
+        choices=STATUS,
+        default="PENDING"
     )
-
-    skills = models.ManyToManyField(Skill)
 
     def __str__(self):
         return self.user.username
