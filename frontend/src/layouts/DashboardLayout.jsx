@@ -1,23 +1,60 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 const DashboardLayout = () => {
-  return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-blue-700 p-4 text-white">
-        <div className="mx-auto flex max-w-6xl items-center justify-between">
-          <Link to="/">Hire Tracker</Link>
-          <div className="space-x-4">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/login">Logout</Link>
-          </div>
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
+    const links = [
+        { to: '/admin/dashboard', label: 'Overview' },
+        { to: '/admin/departments', label: 'Departments' },
+        { to: '/admin/jobs', label: 'Jobs' },
+        { to: '/admin/employees', label: 'Employees' },
+        { to: '/admin/applicants', label: 'Applicants' },
+        { to: '/admin/attendance', label: 'Attendance' },
+        { to: '/admin/notifications', label: 'Notifications' },
+    ];
+
+    return (
+        <div className="min-vh-100 bg-light">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-3">
+            <span className="navbar-brand fw-bold">Hire Tracker</span>
+            <div className="ms-auto d-flex align-items-center gap-3">
+            <span className="text-white">{user?.name || user?.username || 'Admin'}</span>
+            <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>Logout</button>
+            </div>
+        </nav>
+
+        <div className="container-fluid py-4">
+            <div className="row g-4">
+            <aside className="col-lg-3">
+                <div className="card shadow-sm">
+                <div className="card-body">
+                    <h5 className="card-title">Admin menu</h5>
+                    <div className="d-grid gap-2 mt-3">
+                    {links.map((link) => (
+                        <NavLink key={link.to} to={link.to} className={({ isActive }) => `btn btn-sm ${isActive ? 'btn-primary' : 'btn-outline-secondary'}`}>
+                        {link.label}
+                        </NavLink>
+                    ))}
+                    </div>
+                </div>
+                </div>
+            </aside>
+
+            <main className="col-lg-9">
+                <Outlet />
+            </main>
+            </div>
         </div>
-      </nav>
-      <main className="mx-auto max-w-6xl p-6">
-        <Outlet />
-      </main>
-    </div>
-  );
-};
+        </div>
+    );
+    };
 
 export default DashboardLayout;
