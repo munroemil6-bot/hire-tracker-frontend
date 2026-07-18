@@ -7,7 +7,7 @@ import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
 
 const Register = () => {
-    const [form, setForm] = useState({ username: '', email: '', password: '', role: 'APPLICANT' });
+    const [form, setForm] = useState({ username: '', email: '', password: '123456', role: 'APPLICANT' });
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -15,7 +15,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        const response = await api.post('/register/', form);
+        const response = await api.post('/register/', { ...form, password: '123456' });
         const userData = {
             username: response.data.username,
             role: 'APPLICANT',

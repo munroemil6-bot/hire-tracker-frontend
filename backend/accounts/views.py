@@ -1,5 +1,11 @@
 from rest_framework import generics
-from .serializers import RegisterSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .serializers import LoginSerializer, RegisterSerializer
+
+
+class LoginView(TokenObtainPairView):
+    serializer_class = LoginSerializer
 
 
 class RegisterView(generics.CreateAPIView):

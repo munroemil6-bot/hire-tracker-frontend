@@ -19,14 +19,16 @@ const Login = () => {
         const response = await api.post('/login/', form);
         const userData = {
             username: form.username,
-            role: form.username === 'admin' ? 'ADMIN' : 'EMPLOYEE',
+            role: response.data.role || 'APPLICANT',
             name: form.username,
         };
         login(userData, response.data.access);
         if (userData.role === 'ADMIN') {
             navigate('/admin/dashboard');
-        } else {
+        } else if (userData.role === 'EMPLOYEE') {
             navigate('/dashboard');
+        } else {
+            navigate('/applicant');
         }
         } catch (error) {
         setError('Invalid username or password');
