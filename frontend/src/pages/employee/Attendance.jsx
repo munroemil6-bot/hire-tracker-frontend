@@ -4,6 +4,7 @@ import api from '../../api/axios';
 const Attendance = () => {
     const [records, setRecords] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState('');
 
     const loadAttendance = async () => {
         try {
@@ -22,19 +23,23 @@ const Attendance = () => {
 
     const handleClockIn = async () => {
         try {
-            await api.post('/attendance/clock_in/');
+            const response = await api.post('/attendance/clock_in/');
+            setMessage(response.data.clock_out ? 'Session already completed.' : 'Clocked in successfully.');
             await loadAttendance();
         } catch (error) {
             console.error('Failed to clock in', error);
+            setMessage('Failed to clock in. Please try again.');
         }
     };
 
     const handleClockOut = async (id) => {
         try {
-            await api.post(`/attendance/${id}/clock_out/`);
+            const response = await api.post(`/attendance/${id}/clock_out/`);
+            setMessage(response.data.clock_out ? 'Clocked out successfully.' : 'Session is still active.');
             await loadAttendance();
         } catch (error) {
             console.error('Failed to clock out', error);
+            setMessage('Failed to clock out. Please try again.');
         }
     };
 
@@ -48,6 +53,8 @@ const Attendance = () => {
                     </div>
                     <button className="btn btn-primary" onClick={handleClockIn}>Clock in</button>
                 </div>
+
+                {message ? <div className="alert alert-info">{message}</div> : null}
 
                 {loading ? <div className="text-muted">Loading attendance...</div> : (
                     <div className="table-responsive">

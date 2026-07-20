@@ -10,6 +10,13 @@ from .serializers import AttendanceSerializer
 from employees.models import Employee
 
 
+def get_or_create_active_attendance(employee):
+    active_record = Attendance.objects.filter(employee=employee, clock_out__isnull=True).order_by('-clock_in').first()
+    if active_record:
+        return active_record, False
+    return Attendance.objects.create(employee=employee, clock_in=timezone.now()), True
+
+
 class AttendanceViewSet(viewsets.ModelViewSet):
     queryset = Attendance.objects.all()
     serializer_class = AttendanceSerializer
@@ -33,9 +40,10 @@ class AttendanceViewSet(viewsets.ModelViewSet):
         employee = Employee.objects.filter(user=request.user).first()
         if not employee:
             raise PermissionDenied('No employee record found.')
-        attendance = Attendance.objects.create(employee=employee, clock_in=timezone.now())
+
+        attendance, created = get_or_create_active_attendance(employee)
         serializer = self.get_serializer(attendance)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
     def clock_out(self, request, pk=None):

@@ -39,6 +39,28 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Deploying the backend with a dynamic frontend URL
+The backend itself uses relative `api/` routes and does not require a hardcoded `http://127.0.0.1:8000` URL. When you deploy, do the following:
+
+- Set `ALLOWED_HOSTS` to your deployed backend domain.
+- Set `CORS_ALLOWED_ORIGINS` to the deployed frontend domain(s) that will call this API.
+- Set `CSRF_TRUSTED_ORIGINS` to the deployed frontend origin if you use CSRF protection in the browser.
+
+Your frontend should also stop hardcoding `http://127.0.0.1:8000/api` and instead read the backend base URL from an environment variable such as `REACT_APP_API_URL` or `NEXT_PUBLIC_API_URL`.
+
+Example frontend base URL usage:
+
+```js
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const response = await fetch(`${API_BASE_URL}/api/login/`, {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify(data),
+});
+```
+
+Then deploy your frontend with `NEXT_PUBLIC_API_URL=https://your-backend-domain.com` or equivalent.
+
 ## Default Login Credentials
 The seeded/demo users are configured with:
 - Username: admin
