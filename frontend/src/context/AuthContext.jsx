@@ -15,9 +15,13 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData, accessToken) => {
-        localStorage.setItem('user', JSON.stringify(userData));
+        const normalizedUser = {
+            ...userData,
+            role: String(userData?.role || 'APPLICANT').toUpperCase(),
+        };
+        localStorage.setItem('user', JSON.stringify(normalizedUser));
         localStorage.setItem('accessToken', accessToken);
-        setUser(userData);
+        setUser(normalizedUser);
         setToken(accessToken);
     };
 

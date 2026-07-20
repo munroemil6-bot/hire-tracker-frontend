@@ -1,6 +1,7 @@
 from django.db import models
 from accounts.models import User
 
+
 class Notification(models.Model):
     user = models.ForeignKey(
         User,
@@ -9,10 +10,8 @@ class Notification(models.Model):
     )
 
     message = models.TextField()
-
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    kind = models.CharField(max_length=50, default='GENERAL')
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username}: {self.message}"

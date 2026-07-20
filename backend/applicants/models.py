@@ -17,7 +17,7 @@ class Applicant(models.Model):
 
     ]
 
-    user = models.OneToOneField(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
     )
@@ -45,5 +45,10 @@ class Applicant(models.Model):
         default="PENDING"
     )
 
+    interview_date = models.DateTimeField(
+        null=True,
+        blank=True
+    )
+
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.job.title}"

@@ -8,6 +8,8 @@ class ApplicantSerializer(serializers.ModelSerializer):
     user_name = serializers.CharField(source="user.username", read_only=True)
     job_title = serializers.CharField(source="job.title", read_only=True)
 
+    interview_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
+
     class Meta:
         model = Applicant
         fields = [
@@ -20,6 +22,7 @@ class ApplicantSerializer(serializers.ModelSerializer):
             "resume",
             "cover_letter",
             "application_status",
+            "interview_date",
         ]
 
     def create(self, validated_data):

@@ -8,7 +8,7 @@ const Applicants = () => {
     const loadApplicants = async () => {
         try {
             const response = await api.get('/applicants/');
-            setApplicants(response.data);
+            setApplicants(Array.isArray(response.data) ? response.data : response.data?.results || []);
         } catch (error) {
             console.error('Failed to load applicants', error);
         }
@@ -23,6 +23,12 @@ const Applicants = () => {
             setBusyId(id);
             if (action === 'remove') {
                 await api.delete(`/applicants/${id}/remove/`);
+            } else if (action === 'interview') {
+                const date = window.prompt('Enter interview date and time (YYYY-MM-DD HH:MM)');
+                if (!date) {
+                    return;
+                }
+                await api.post(`/applicants/${id}/interview/`, { interview_date: date });
             } else {
                 await api.post(`/applicants/${id}/${action}/`);
             }
@@ -46,6 +52,9 @@ const Applicants = () => {
                                     <div>
                                         <h5 className="card-title mb-1">{applicant.user_name}</h5>
                                         <p className="mb-1 text-muted">Applied for: {applicant.job_title}</p>
+                                        {applicant.interview_date ? (
+                                            <p className="mb-1 text-muted">Interview: {applicant.interview_date}</p>
+                                        ) : null}
                                     </div>
                                     <span className={`badge ${applicant.application_status === 'APPROVED' ? 'bg-success' : applicant.application_status === 'REJECTED' ? 'bg-danger' : 'bg-warning text-dark'}`}>
                                         {applicant.application_status || 'PENDING'}
@@ -63,6 +72,9 @@ const Applicants = () => {
                                             {busyId === applicant.id ? 'Processing...' : 'Reject'}
                                         </button>
                                     )}
+                                    <button className="btn btn-outline-info btn-sm" onClick={() => handleAction(applicant.id, 'interview')} disabled={busyId === applicant.id}>
+                                        {busyId === applicant.id ? 'Saving...' : 'Set interview'}
+                                    </button>
                                     <button className="btn btn-outline-danger btn-sm" onClick={() => handleAction(applicant.id, 'remove')} disabled={busyId === applicant.id}>
                                         {busyId === applicant.id ? 'Removing...' : 'Remove'}
                                     </button>

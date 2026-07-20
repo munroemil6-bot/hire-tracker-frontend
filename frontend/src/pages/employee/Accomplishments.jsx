@@ -1,34 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../api/axios';
 
 const Accomplishments = () => {
+    const [entries, setEntries] = useState([]);
+    const [form, setForm] = useState({ title: '', description: '', date: '' });
+
+    const loadEntries = async () => {
+        try {
+            const response = await api.get('/accomplishments/');
+            setEntries(response.data || []);
+        } catch (error) {
+            console.error('Failed to load accomplishments', error);
+        }
+    };
+
+    useEffect(() => {
+        loadEntries();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await api.post('/accomplishments/', form);
+            setForm({ title: '', description: '', date: '' });
+            await loadEntries();
+        } catch (error) {
+            console.error('Failed to save accomplishment', error);
+        }
+    };
+
     return (
         <div className="container-fluid">
-        <div className="card shadow-sm p-4">
-            <div className="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h3 className="fw-bold mb-1">Accomplishments</h3>
-                <p className="text-muted mb-0">Highlight your recent milestones and achievements.</p>
-            </div>
-            <button className="btn btn-outline-primary">Add entry</button>
-            </div>
+            <div className="card shadow-sm p-4">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h3 className="fw-bold mb-1">Accomplishments</h3>
+                        <p className="text-muted mb-0">Highlight your recent milestones and achievements.</p>
+                    </div>
+                </div>
 
-            <div className="row g-3">
-            <div className="col-md-6">
-                <div className="border rounded p-3 h-100">
-                <h5 className="fw-semibold">Launch of new onboarding flow</h5>
-                <p className="text-muted mb-0">Delivered a smoother employee onboarding experience with clear guidance and automation.</p>
+                <form onSubmit={handleSubmit} className="border rounded p-3 mb-4">
+                    <div className="row g-3">
+                        <div className="col-md-4">
+                            <label className="form-label">Title</label>
+                            <input className="form-control" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+                        </div>
+                        <div className="col-md-4">
+                            <label className="form-label">Date</label>
+                            <input type="date" className="form-control" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
+                        </div>
+                        <div className="col-md-4">
+                            <label className="form-label">Description</label>
+                            <textarea className="form-control" rows="3" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
+                        </div>
+                    </div>
+                    <button className="btn btn-primary mt-3" type="submit">Save entry</button>
+                </form>
+
+                <div className="row g-3">
+                    {entries.map((entry) => (
+                        <div key={entry.id} className="col-md-6">
+                            <div className="border rounded p-3 h-100">
+                                <h5 className="fw-semibold">{entry.title}</h5>
+                                <p className="text-muted mb-1">{entry.description}</p>
+                                <small className="text-muted">{entry.date}</small>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
-            <div className="col-md-6">
-                <div className="border rounded p-3 h-100">
-                <h5 className="fw-semibold">Improved team reporting</h5>
-                <p className="text-muted mb-0">Helped improve weekly reporting accuracy across three departments.</p>
-                </div>
-            </div>
-            </div>
-        </div>
         </div>
     );
-    };
+};
 
 export default Accomplishments;

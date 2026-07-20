@@ -1,12 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import api from '../../api/axios';
 
 const Jobs = () => {
-    const jobs = [
-        { title: 'Software Engineer', department: 'Engineering', type: 'Full-time', salary: '$120k', description: 'Build modern web products and scale platform features.' },
-        { title: 'HR Specialist', department: 'People Operations', type: 'Full-time', salary: '$75k', description: 'Support recruitment, onboarding, and employee engagement.' },
-        { title: 'Product Designer', department: 'Design', type: 'Contract', salary: '$95k', description: 'Shape intuitive experiences for our internal tools and customer workflows.' },
-    ];
+    const [jobs, setJobs] = useState([]);
+    const [message, setMessage] = useState('');
+    const [busyId, setBusyId] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadJobs = async () => {
+            try {
+                const response = await api.get('/jobs/');
+                const jobList = Array.isArray(response.data) ? response.data : response.data?.results || [];
+                setJobs(jobList.filter((job) => job && job.id));
+            } catch (error) {
+                console.error('Failed to load jobs', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadJobs();
+    }, []);
+
+    const handleApply = async (job) => {
+        try {
+            setBusyId(job.id);
+            const formData = new FormData();
+            formData.append('job', job.id);
+            formData.append('resume', new File(['resume placeholder'], 'resume.txt', { type: 'text/plain' }));
+            formData.append('cover_letter', `Application for ${job.title}`);
+
+            await api.post('/applicants/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            setMessage(`Application submitted for ${job.title}`);
+        } catch (error) {
+            console.error('Failed to submit application', error);
+            setMessage('Application could not be submitted right now.');
+        } finally {
+            setBusyId(null);
+        }
+    };
 
     return (
         <div className="container-fluid">
@@ -19,18 +58,28 @@ const Jobs = () => {
                     <Link to="/applicant" className="btn btn-outline-secondary btn-sm">Back to dashboard</Link>
                 </div>
 
+                {message ? <div className="alert alert-success">{message}</div> : null}
+
+                {loading ? <div className="text-muted">Loading jobs...</div> : null}
+
                 <div className="row g-3">
-                    {jobs.map((job) => (
-                        <div className="col-md-6" key={job.title}>
+                    {jobs.length === 0 ? (
+                        <div className="col-12">
+                            <div className="alert alert-info mb-0">No admin-created jobs are available right now. Please check back later.</div>
+                        </div>
+                    ) : jobs.map((job) => (
+                        <div className="col-md-6" key={job.id || job.title}>
                             <div className="border rounded p-3 h-100">
                                 <div className="d-flex justify-content-between align-items-start">
                                     <h5 className="fw-semibold">{job.title}</h5>
-                                    <span className="badge bg-success">{job.type}</span>
+                                    <span className="badge bg-success">Admin posted</span>
                                 </div>
                                 <p className="text-muted mb-2">{job.description}</p>
-                                <p className="small mb-2"><strong>Department:</strong> {job.department}</p>
-                                <p className="small mb-3"><strong>Salary:</strong> {job.salary}</p>
-                                <button className="btn btn-success btn-sm">Apply now</button>
+                                <p className="small mb-2"><strong>Department:</strong> {job.department_name || job.department || 'General'}</p>
+                                <p className="small mb-3"><strong>Salary:</strong> {job.salary || 'Competitive'}</p>
+                                <button className="btn btn-success btn-sm" onClick={() => handleApply(job)} disabled={busyId === job.id}>
+                                    {busyId === job.id ? 'Submitting...' : 'Apply now'}
+                                </button>
                             </div>
                         </div>
                     ))}

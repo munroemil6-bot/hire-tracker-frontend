@@ -13,11 +13,18 @@ const ProtectedRoute = ({ children, role }) => {
         return <Navigate to="/login" replace />;
     }
 
-    if (role && user.role !== role) {
-        return <Navigate to="/admin/dashboard" replace />;
+    const normalizedRole = String(user.role || '').toUpperCase();
+    const requiredRole = role ? String(role).toUpperCase() : null;
+    const isAdminAccount = normalizedRole === 'ADMIN' || user.isStaff || user.isSuperuser;
+
+    if (requiredRole && normalizedRole !== requiredRole) {
+        if (isAdminAccount) {
+            return <Navigate to="/admin/dashboard" replace />;
+        }
+        return <Navigate to="/applicant" replace />;
     }
 
     return children;
-    };
+};
 
 export default ProtectedRoute;
