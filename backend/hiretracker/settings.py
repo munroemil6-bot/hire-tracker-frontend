@@ -19,6 +19,20 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+def get_env_list(name, default):
+    value = os.environ.get(name)
+    if value:
+        return [item.strip() for item in value.split(',') if item.strip()]
+    return [item.strip() for item in default.split(',') if item.strip()]
+
+
+def get_allowed_hosts(default):
+    hosts = get_env_list('ALLOWED_HOSTS', default)
+    if '.onrender.com' not in hosts and 'onrender.com' not in hosts:
+        hosts.append('.onrender.com')
+    return hosts
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -28,16 +42,22 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-n9cwulf!m!fiz1vdfpb%9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
-CORS_ALLOWED_ORIGINS = os.environ.get(
+ALLOWED_HOSTS = get_allowed_hosts('localhost,127.0.0.1,.onrender.com')
+CORS_ALLOWED_ORIGINS = get_env_list(
     'CORS_ALLOWED_ORIGINS',
-    'http://localhost:5173,http://127.0.0.1:5173',
-).split(',')
-CSRF_TRUSTED_ORIGINS = os.environ.get(
+    'http://localhost:5173,http://127.0.0.1:5173,https://hire-tracker-frontend.onrender.com',
+)
+CORS_ALLOWED_ORIGIN_REGEX_WHITELIST = [
+    r'^https://.*\.onrender\.com$',
+    r'^http://localhost:\d+$',
+    r'^http://127\.0\.0\.1:\d+$',
+]
+CSRF_TRUSTED_ORIGINS = get_env_list(
     'CSRF_TRUSTED_ORIGINS',
-    'http://localhost:5173,https://*.onrender.com',
-).split(',')
-
+    'http://localhost:5173,https://hire-tracker-frontend.onrender.com,https://hire-tracker-backend-95mr.onrender.com',
+)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 
 # Application definition
 
@@ -69,6 +89,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
