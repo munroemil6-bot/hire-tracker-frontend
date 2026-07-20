@@ -14,6 +14,9 @@ import Attendance from "./pages/admin/Attendance";
 import Notifications from "./pages/admin/Notifications";
 import EmployeeDashboard from "./pages/employee/Dashboard";
 import ApplicantDashboard from "./pages/applicant/Dashboard";
+import ApplicantJobs from "./pages/applicant/Jobs";
+import ApplicantApplications from "./pages/applicant/Applications";
+import ApplicantProfile from "./pages/applicant/Profile";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -36,6 +39,9 @@ function App() {
 
         <Route path="/dashboard" element={<ProtectedRoute><EmployeeDashboard /></ProtectedRoute>} />
         <Route path="/applicant" element={<ProtectedRoute><ApplicantDashboard /></ProtectedRoute>} />
+        <Route path="/applicant/jobs" element={<ProtectedRoute><ApplicantJobs /></ProtectedRoute>} />
+        <Route path="/applicant/applications" element={<ProtectedRoute><ApplicantApplications /></ProtectedRoute>} />
+        <Route path="/applicant/profile" element={<ProtectedRoute><ApplicantProfile /></ProtectedRoute>} />
         <Route path="*" element={<NotFound />} />
         </Routes>
     );

@@ -20,6 +20,7 @@ const Register = () => {
             username: response.data.username,
             role: 'APPLICANT',
             name: response.data.username,
+            email: response.data.email || 'admin@gmail.com',
         };
         login(userData, response.data.access || 'demo-token');
         setMessage('Account created. Welcome to your applicant dashboard.');

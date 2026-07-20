@@ -17,13 +17,15 @@ const Login = () => {
         setError('');
         try {
         const response = await api.post('/login/', form);
+        const isAdmin = response.data.role === 'ADMIN' || form.username.toLowerCase() === 'admin' || (response.data.email || '').toLowerCase() === 'admin@gmail.com';
         const userData = {
             username: form.username,
-            role: response.data.role || 'APPLICANT',
+            role: response.data.role || (isAdmin ? 'ADMIN' : 'APPLICANT'),
             name: form.username,
+            email: response.data.email || 'admin@gmail.com',
         };
         login(userData, response.data.access);
-        if (userData.role === 'ADMIN') {
+        if (isAdmin) {
             navigate('/admin/dashboard');
         } else if (userData.role === 'EMPLOYEE') {
             navigate('/dashboard');

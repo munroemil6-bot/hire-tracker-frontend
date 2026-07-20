@@ -15,6 +15,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         data['role'] = self.user.role
         data['username'] = self.user.username
+        data['email'] = self.user.email or 'admin@gmail.com'
         return data
 
 

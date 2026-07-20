@@ -17,7 +17,7 @@ const Profile = () => {
                 <div className="border rounded p-3">
                 <h5 className="fw-semibold">Personal details</h5>
                 <p className="mb-1"><strong>Name:</strong> Sarah Kim</p>
-                <p className="mb-1"><strong>Email:</strong> sarah@example.com</p>
+                <p className="mb-1"><strong>Email:</strong> sarah@gmail.com</p>
                 <p className="mb-0"><strong>Phone:</strong> +254 700 000 001</p>
                 </div>
             </div>
