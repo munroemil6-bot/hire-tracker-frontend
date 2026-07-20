@@ -2,6 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 
+const formatSalary = (value) => {
+    const amount = Number(value);
+    if (!Number.isFinite(amount)) {
+        return 'Competitive salary';
+    }
+
+    return new Intl.NumberFormat('en-KE', {
+        style: 'currency',
+        currency: 'KES',
+        maximumFractionDigits: 0,
+    }).format(amount);
+};
+
 const Jobs = () => {
     const [jobs, setJobs] = useState([]);
     const [message, setMessage] = useState('');
@@ -76,7 +89,7 @@ const Jobs = () => {
                                 </div>
                                 <p className="text-muted mb-2">{job.description}</p>
                                 <p className="small mb-2"><strong>Department:</strong> {job.department_name || job.department || 'General'}</p>
-                                <p className="small mb-3"><strong>Salary:</strong> {job.salary || 'Competitive'}</p>
+                                <p className="small mb-3"><strong>Salary:</strong> {formatSalary(job.salary)}</p>
                                 <button className="btn btn-success btn-sm" onClick={() => handleApply(job)} disabled={busyId === job.id}>
                                     {busyId === job.id ? 'Submitting...' : 'Apply now'}
                                 </button>

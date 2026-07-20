@@ -1,10 +1,9 @@
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-
-
-from django.db.models import Q
 
 class LoginSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -27,10 +26,13 @@ class LoginSerializer(TokenObtainPairSerializer):
         data['role'] = self.user.role
         data['username'] = self.user.username
         data['email'] = self.user.email or ''
+        data['phone'] = self.user.phone or ''
         return data
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    access = serializers.SerializerMethodField(read_only=True)
+    refresh = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -43,20 +45,26 @@ class RegisterSerializer(serializers.ModelSerializer):
             "phone",
             "role",
             "profile_picture",
+            "access",
+            "refresh",
         ]
 
         extra_kwargs = {
             "password": {"write_only": True}
         }
 
-    def create(self, validated_data):
+    def get_access(self, obj):
+        return str(RefreshToken.for_user(obj).access_token)
 
+    def get_refresh(self, obj):
+        return str(RefreshToken.for_user(obj))
+
+    def create(self, validated_data):
         password = validated_data.pop("password", "123456") or "123456"
+        validated_data.setdefault("role", "APPLICANT")
 
         user = User(**validated_data)
-
         user.set_password(password)
-
         user.save()
 
         return user

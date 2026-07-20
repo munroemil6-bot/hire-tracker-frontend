@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [attendance, setAttendance] = useState([]);
     const [accomplishments, setAccomplishments] = useState([]);
     const [notifications, setNotifications] = useState([]);
@@ -28,13 +29,23 @@ const Dashboard = () => {
         loadData();
     }, []);
 
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
     return (
         <div className="container-fluid">
             <div className="row g-4">
                 <div className="col-12">
                     <div className="card border-0 shadow-sm p-4 bg-primary text-white">
-                        <h2 className="fw-bold mb-2">Welcome back, {user?.name || user?.username || 'Employee'}</h2>
-                        <p className="mb-0 opacity-75">Track your attendance, accomplishments, and updates from one place.</p>
+                        <div className="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <h2 className="fw-bold mb-2">Welcome back, {user?.name || user?.username || 'Employee'}</h2>
+                                <p className="mb-0 opacity-75">Track your attendance, accomplishments, and updates from one place.</p>
+                            </div>
+                            <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>Logout</button>
+                        </div>
                     </div>
                 </div>
 

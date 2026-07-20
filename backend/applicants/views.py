@@ -64,7 +64,7 @@ class ApplicantViewSet(viewsets.ModelViewSet):
             user.role = 'EMPLOYEE'
             user.save(update_fields=['role'])
 
-        Employee.objects.get_or_create(
+        employee, created = Employee.objects.get_or_create(
             user=user,
             defaults={
                 'department': applicant.job.department,
@@ -73,6 +73,11 @@ class ApplicantViewSet(viewsets.ModelViewSet):
                 'salary': applicant.job.salary,
             },
         )
+        if not created:
+            employee.department = applicant.job.department
+            employee.salary = applicant.job.salary
+            employee.hire_date = applicant.job.deadline
+            employee.save(update_fields=['department', 'salary', 'hire_date'])
 
         create_notification(user, f'Your application for {applicant.job.title} has been approved.', 'APPLICATION_APPROVED')
         create_notification(applicant.job.created_by if hasattr(applicant.job, 'created_by') else None, f'Application approved for {applicant.user.username}.', 'APPLICATION_APPROVED')
