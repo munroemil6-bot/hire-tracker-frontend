@@ -42,7 +42,7 @@ const Dashboard = () => {
                         <div className="d-flex justify-content-between align-items-start gap-3">
                             <div>
                                 <h2 className="fw-bold mb-2">Welcome, {user?.name || user?.username || 'Applicant'}</h2>
-                                <p className="mb-0 opacity-75">Browse roles, apply online, upload your documents, and track your hiring progress from one place.</p>
+                                <p className="mb-0 opacity-75">Browse roles, apply online, and track your hiring progress from one place.</p>
                             </div>
                             <button className="btn btn-outline-light btn-sm" onClick={handleLogout}>Logout</button>
                         </div>
@@ -90,25 +90,15 @@ const Dashboard = () => {
 
                 <div className="col-12">
                     <div className="row g-3">
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <div className="card shadow-sm h-100">
                                 <div className="card-body">
-                                    <h6 className="fw-bold">Resume</h6>
-                                    <p className="text-muted small mb-3">Upload your resume for faster applications.</p>
-                                    <button className="btn btn-outline-success btn-sm">Upload resume</button>
+                                    <h6 className="fw-bold">Application guidance</h6>
+                                    <p className="text-muted small mb-3">Submit your application by clicking a job and following the application flow.</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-4">
-                            <div className="card shadow-sm h-100">
-                                <div className="card-body">
-                                    <h6 className="fw-bold">Cover letter</h6>
-                                    <p className="text-muted small mb-3">Share a tailored note for each opportunity.</p>
-                                    <button className="btn btn-outline-success btn-sm">Upload cover letter</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <div className="card shadow-sm h-100">
                                 <div className="card-body">
                                     <h6 className="fw-bold">Applications</h6>

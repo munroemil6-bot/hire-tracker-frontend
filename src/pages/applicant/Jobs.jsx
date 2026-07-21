@@ -40,21 +40,32 @@ const Jobs = () => {
     const handleApply = async (job) => {
         try {
             setBusyId(job.id);
-            const formData = new FormData();
-            formData.append('job', job.id);
-            formData.append('resume', new File(['resume placeholder'], 'resume.txt', { type: 'text/plain' }));
-            formData.append('cover_letter', `Application for ${job.title}`);
+            const payload = {
+                job: job.id,
+                cover_letter: `I am applying for ${job.title}`,
+            };
 
-            await api.post('/applicants/', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-
-            setMessage(`Application submitted for ${job.title}`);
+            const res = await api.post('/applicants/', payload);
+            if (res && (res.status === 201 || res.status === 200)) {
+                setMessage(`Application sent for ${job.title}`);
+            } else {
+                setMessage('Application submitted.');
+            }
         } catch (error) {
             console.error('Failed to submit application', error);
-            setMessage('Application could not be submitted right now.');
+            if (error.response) {
+                if (error.response.status === 401) {
+                    setMessage('You must be signed in to apply.');
+                } else if (error.response.status === 403) {
+                    setMessage(error.response.data.detail || 'You are not allowed to apply for this job.');
+                } else if (error.response.data && error.response.data.detail) {
+                    setMessage(error.response.data.detail);
+                } else {
+                    setMessage('Application could not be submitted right now.');
+                }
+            } else {
+                setMessage('Application could not be submitted right now.');
+            }
         } finally {
             setBusyId(null);
         }

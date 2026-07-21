@@ -6,15 +6,41 @@ import Button from '../../components/common/Button';
 import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
 
+const emailPattern = /^\S+@\S+\.\S+$/;
+
 const Login = () => {
     const [form, setForm] = useState({ identifier: '', password: '' });
+    const [errors, setErrors] = useState({});
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { login } = useAuth();
 
+    const validate = () => {
+        const validationErrors = {};
+        if (!form.identifier.trim()) {
+            validationErrors.identifier = 'Username or email is required';
+        } else if (form.identifier.includes('@') && !emailPattern.test(form.identifier.trim())) {
+            validationErrors.identifier = 'Enter a valid email address';
+        }
+
+        if (!form.password) {
+            validationErrors.password = 'Password is required';
+        } else if (form.password.length < 8) {
+            validationErrors.password = 'Password must be at least 8 characters';
+        }
+
+        return validationErrors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        const validationErrors = validate();
+        if (Object.keys(validationErrors).length) {
+            setErrors(validationErrors);
+            return;
+        }
+
         try {
             const payload = {
                 username: form.identifier,
@@ -50,8 +76,25 @@ const Login = () => {
             <h2 className="mb-4 text-2xl font-semibold">Login</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
-                <Input label="Username or Email" value={form.identifier} onChange={(e) => setForm({ ...form, identifier: e.target.value })} />
-                <Input label="Password" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+                <Input
+                    label="Username or Email"
+                    value={form.identifier}
+                    onChange={(e) => {
+                        setForm({ ...form, identifier: e.target.value });
+                        setErrors({ ...errors, identifier: undefined });
+                    }}
+                />
+                {errors.identifier && <div className="text-danger small mb-2">{errors.identifier}</div>}
+                <Input
+                    label="Password"
+                    type="password"
+                    value={form.password}
+                    onChange={(e) => {
+                        setForm({ ...form, password: e.target.value });
+                        setErrors({ ...errors, password: undefined });
+                    }}
+                />
+                {errors.password && <div className="text-danger small mb-2">{errors.password}</div>}
                 <Button type="submit">Sign In</Button>
             </form>
             <p className="mt-3 mb-0 text-sm text-muted">Need an account? <Link to="/register">Create one</Link></p>

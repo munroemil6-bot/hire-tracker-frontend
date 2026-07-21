@@ -8,9 +8,6 @@ const runtimeApiUrl = (
 
 const api = axios.create({
     baseURL: runtimeApiUrl,
-    headers: {
-        'Content-Type': 'application/json',
-    },
 });
 
 api.interceptors.request.use((config) => {

@@ -34,22 +34,6 @@ const Profile = () => {
                     </div>
                 </div>
 
-                <div className="row g-3 mt-1">
-                    <div className="col-md-6">
-                        <div className="border rounded p-3">
-                            <h5 className="fw-semibold">Resume</h5>
-                            <p className="text-muted mb-2">Upload your latest resume so recruiters can review it quickly.</p>
-                            <button className="btn btn-outline-success btn-sm">Upload resume</button>
-                        </div>
-                    </div>
-                    <div className="col-md-6">
-                        <div className="border rounded p-3">
-                            <h5 className="fw-semibold">Cover letter</h5>
-                            <p className="text-muted mb-2">Add a tailored cover letter for your next application.</p>
-                            <button className="btn btn-outline-success btn-sm">Upload cover letter</button>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
