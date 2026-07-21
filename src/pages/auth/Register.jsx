@@ -121,7 +121,7 @@ const Register = () => {
 
     return (
         <AuthLayout>
-            <h2 className="mb-4 text-2xl font-semibold">Create Applicant Account</h2>
+            <h2 className="mb-4 text-2xl font-semibold">Create Account</h2>
             {message && <div className="alert alert-info">{message}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="row g-3 mb-3">
@@ -177,6 +177,19 @@ const Register = () => {
                     }}
                 />
                 {errors.phone && <div className="text-danger small mb-2">{errors.phone}</div>}
+                <div className="mb-3">
+                    <label className="form-label">Role</label>
+                    <select
+                        className="form-select"
+                        value={form.role}
+                        onChange={(e) => setForm({ ...form, role: e.target.value })}
+                    >
+                        <option value="APPLICANT">Applicant</option>
+                        <option value="EMPLOYEE">Employee</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+
                 <Input
                     label="Password"
                     type="password"

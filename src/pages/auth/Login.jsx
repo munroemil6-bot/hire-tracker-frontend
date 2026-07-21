@@ -25,8 +25,8 @@ const Login = () => {
 
         if (!form.password) {
             validationErrors.password = 'Password is required';
-        } else if (form.password.length < 8) {
-            validationErrors.password = 'Password must be at least 8 characters';
+        } else if (form.password.length < 4) {
+            validationErrors.password = 'Password must be at least 4 characters';
         }
 
         return validationErrors;

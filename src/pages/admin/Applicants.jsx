@@ -8,7 +8,8 @@ const Applicants = () => {
     const loadApplicants = async () => {
         try {
             const response = await api.get('/applicants/');
-            setApplicants(Array.isArray(response.data) ? response.data : response.data?.results || []);
+            const applicantList = Array.isArray(response.data) ? response.data : response.data?.results || [];
+            setApplicants(applicantList.filter((item) => item && item.id));
         } catch (error) {
             console.error('Failed to load applicants', error);
         }
