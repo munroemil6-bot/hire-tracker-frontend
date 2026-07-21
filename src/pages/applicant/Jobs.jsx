@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
+import Footer from '../../components/common/Footer';
 
 const formatSalary = (value) => {
     const amount = Number(value);
@@ -72,14 +73,15 @@ const Jobs = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div className="min-vh-100 d-flex flex-column">
+        <div className="container-fluid flex-grow-1">
             <div className="card shadow-sm p-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h3 className="fw-bold mb-1">Browse jobs</h3>
                         <p className="text-muted mb-0">Choose a role and begin your application.</p>
                     </div>
-                    <Link to="/applicant" className="btn btn-outline-secondary btn-sm">Back to dashboard</Link>
+                    <Link to="/applicant" className="btn btn-outline-secondary btn-sm">← Back to dashboard</Link>
                 </div>
 
                 {message ? <div className="alert alert-success">{message}</div> : null}
@@ -109,6 +111,8 @@ const Jobs = () => {
                     ))}
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };

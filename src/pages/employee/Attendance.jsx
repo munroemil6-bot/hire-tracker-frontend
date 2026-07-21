@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../api/axios';
+import Footer from '../../components/common/Footer';
 
 const Attendance = () => {
     const [records, setRecords] = useState([]);
@@ -44,14 +46,18 @@ const Attendance = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div className="min-vh-100 d-flex flex-column">
+        <div className="container-fluid flex-grow-1">
             <div className="card shadow-sm p-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h3 className="fw-bold mb-1">Attendance</h3>
                         <p className="text-muted mb-0">Keep your work hours up to date.</p>
                     </div>
-                    <button className="btn btn-primary" onClick={handleClockIn}>Clock in</button>
+                    <div className="d-flex gap-2">
+                        <Link to="/dashboard" className="btn btn-outline-secondary btn-sm">← Back to dashboard</Link>
+                        <button className="btn btn-primary" onClick={handleClockIn}>Clock in</button>
+                    </div>
                 </div>
 
                 {message ? <div className="alert alert-info">{message}</div> : null}
@@ -83,6 +89,8 @@ const Attendance = () => {
                     </div>
                 )}
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };

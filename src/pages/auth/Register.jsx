@@ -177,18 +177,6 @@ const Register = () => {
                     }}
                 />
                 {errors.phone && <div className="text-danger small mb-2">{errors.phone}</div>}
-                <div className="mb-3">
-                    <label className="form-label">Role</label>
-                    <select
-                        className="form-select"
-                        value={form.role}
-                        onChange={(e) => setForm({ ...form, role: e.target.value })}
-                    >
-                        <option value="APPLICANT">Applicant</option>
-                        <option value="EMPLOYEE">Employee</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
-                </div>
 
                 <Input
                     label="Password"

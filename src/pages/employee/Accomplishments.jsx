@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../api/axios';
+import Footer from '../../components/common/Footer';
 
 const Accomplishments = () => {
     const [entries, setEntries] = useState([]);
@@ -30,13 +32,15 @@ const Accomplishments = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div className="min-vh-100 d-flex flex-column">
+        <div className="container-fluid flex-grow-1">
             <div className="card shadow-sm p-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <h3 className="fw-bold mb-1">Accomplishments</h3>
                         <p className="text-muted mb-0">Highlight your recent milestones and achievements.</p>
                     </div>
+                    <Link to="/dashboard" className="btn btn-outline-secondary btn-sm">← Back to dashboard</Link>
                 </div>
 
                 <form onSubmit={handleSubmit} className="border rounded p-3 mb-4">
@@ -69,6 +73,8 @@ const Accomplishments = () => {
                     ))}
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };

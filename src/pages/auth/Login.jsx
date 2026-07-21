@@ -43,21 +43,21 @@ const Login = () => {
 
         try {
             const payload = {
-                username: form.identifier,
+                username: form.identifier.trim(),
                 password: form.password,
             };
             const response = await api.post('/login/', payload);
-            const normalizedRole = String(response.data.role || '').toUpperCase();
-            const isAdmin = normalizedRole === 'ADMIN' || (response.data.email || '').toLowerCase() === 'admin@gmail.com';
+            const normalizedRole = String(response?.data?.role || '').toUpperCase();
+            const isAdmin = normalizedRole === 'ADMIN' || (response?.data?.email || '').toLowerCase() === 'admin@gmail.com';
             const userData = {
-                username: response.data.username || response.data.email || form.identifier,
+                username: response?.data?.username || response?.data?.email || form.identifier,
                 role: isAdmin ? 'ADMIN' : (normalizedRole || 'APPLICANT'),
-                name: response.data.username || response.data.email || form.identifier,
-                email: response.data.email || form.identifier,
+                name: response?.data?.username || response?.data?.email || form.identifier,
+                email: response?.data?.email || form.identifier,
                 isStaff: isAdmin,
                 isSuperuser: isAdmin,
             };
-            login(userData, response.data.access);
+            login(userData, response?.data?.access || response?.data?.refresh);
             if (isAdmin) {
                 navigate('/admin/dashboard');
             } else if (userData.role === 'EMPLOYEE') {
@@ -66,6 +66,8 @@ const Login = () => {
                 navigate('/applicant');
             }
         } catch (error) {
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('user');
             setError('Invalid username/email or password');
             console.error('Login failed', error);
         }

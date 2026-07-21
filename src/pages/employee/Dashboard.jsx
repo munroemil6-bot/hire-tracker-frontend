@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
+import Footer from '../../components/common/Footer';
 
 const Dashboard = () => {
     const { user, logout } = useAuth();
@@ -35,7 +36,8 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="container-fluid">
+        <div className="min-vh-100 d-flex flex-column">
+        <div className="container-fluid flex-grow-1">
             <div className="row g-4">
                 <div className="col-12">
                     <div className="card border-0 shadow-sm p-4 bg-primary text-white">
@@ -92,6 +94,8 @@ const Dashboard = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };

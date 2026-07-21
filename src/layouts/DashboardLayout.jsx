@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import Footer from '../components/common/Footer';
 
 const DashboardLayout = () => {
     const { user, logout } = useAuth();
@@ -22,7 +23,7 @@ const DashboardLayout = () => {
     ];
 
     return (
-        <div className="min-vh-100 bg-light">
+        <div className="min-vh-100 bg-light d-flex flex-column">
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary px-3">
             <span className="navbar-brand fw-bold">Hire Tracker</span>
             <div className="ms-auto d-flex align-items-center gap-3">
@@ -31,7 +32,7 @@ const DashboardLayout = () => {
             </div>
         </nav>
 
-        <div className="container-fluid py-4">
+        <div className="container-fluid py-4 flex-grow-1">
             <div className="row g-4">
             <aside className="col-lg-3">
                 <div className="card shadow-sm">
@@ -53,6 +54,7 @@ const DashboardLayout = () => {
             </main>
             </div>
         </div>
+        <Footer />
         </div>
     );
     };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../api/axios';
 import { useAuth } from '../../hooks/useAuth';
+import Footer from '../../components/common/Footer';
 
 const Profile = () => {
     const { user } = useAuth();
@@ -21,13 +23,15 @@ const Profile = () => {
     }, []);
 
     return (
-        <div className="container-fluid">
+        <div className="min-vh-100 d-flex flex-column">
+        <div className="container-fluid flex-grow-1">
             <div className="card shadow-sm p-4">
                 <div className="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h3 className="fw-bold mb-1">Profile</h3>
                         <p className="text-muted mb-0">Review your personal and professional details.</p>
                     </div>
+                    <Link to="/dashboard" className="btn btn-outline-secondary btn-sm">← Back to dashboard</Link>
                 </div>
 
                 <div className="row g-4">
@@ -49,6 +53,8 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+        </div>
+        <Footer />
         </div>
     );
 };
