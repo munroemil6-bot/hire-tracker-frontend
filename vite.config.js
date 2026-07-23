@@ -17,7 +17,7 @@ export default defineConfig({
   },
   preview: {
     host: '0.0.0.0',
-    port: 4173,
-    allowedHosts: ['hire-tracker-frontend.onrender.com', 'localhost'],
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
+    allowedHosts: ['hire-tracker-frontend.onrender.com', 'localhost', '.onrender.com'],
   },
 })
