@@ -10,7 +10,7 @@ const emailPattern = /^\S+@\S+\.\S+$/;
 
 const getLoginErrorMessage = (error) => {
     if (!error.response) {
-        return 'Cannot reach the backend. Start the Django server on http://127.0.0.1:8000 and try again.';
+        return 'Cannot reach the server. Please check your connection and try again.';
     }
 
     return typeof error.response.data?.detail === 'string'
