@@ -8,6 +8,16 @@ import { useAuth } from '../../hooks/useAuth';
 
 const emailPattern = /^\S+@\S+\.\S+$/;
 
+const getLoginErrorMessage = (error) => {
+    if (!error.response) {
+        return 'Cannot reach the backend. Start the Django server on http://127.0.0.1:8000 and try again.';
+    }
+
+    return typeof error.response.data?.detail === 'string'
+        ? error.response.data.detail
+        : 'Invalid username/email or password';
+};
+
 const Login = () => {
     const [form, setForm] = useState({ identifier: '', password: '' });
     const [errors, setErrors] = useState({});
@@ -68,7 +78,7 @@ const Login = () => {
         } catch (error) {
             localStorage.removeItem('accessToken');
             localStorage.removeItem('user');
-            setError('Invalid username/email or password');
+            setError(getLoginErrorMessage(error));
             console.error('Login failed', error);
         }
     };

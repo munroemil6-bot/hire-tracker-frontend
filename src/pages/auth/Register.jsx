@@ -9,6 +9,22 @@ import { useAuth } from '../../hooks/useAuth';
 const emailPattern = /^\S+@\S+\.\S+$/;
 const phonePattern = /^\d{10}$/;
 
+const getApiErrorMessage = (error, fallbackMessage) => {
+    if (!error.response) {
+        return 'Cannot reach the backend. Start the Django server on http://127.0.0.1:8000 and try again.';
+    }
+
+    const data = error.response.data;
+    if (typeof data?.detail === 'string') return data.detail;
+
+    if (data && typeof data === 'object') {
+        const firstError = Object.values(data).flat().find(Boolean);
+        if (typeof firstError === 'string') return firstError;
+    }
+
+    return fallbackMessage;
+};
+
 const Register = () => {
     const [form, setForm] = useState({
         first_name: '',
@@ -109,12 +125,16 @@ const Register = () => {
                 email: response.data.email || form.email,
                 phone: response.data.phone || form.phone,
             };
-            login(userData, response.data.access || response.data.refresh || 'demo-token');
+            if (!response.data.access) {
+                throw new Error('The backend did not return an access token.');
+            }
+
+            login(userData, response.data.access);
             setMessage('Account created. Welcome to your dashboard.');
             const nextPath = normalizedRole === 'ADMIN' ? '/admin/dashboard' : normalizedRole === 'EMPLOYEE' ? '/dashboard' : '/applicant';
             setTimeout(() => navigate(nextPath), 400);
         } catch (error) {
-            setMessage('Registration failed. Try another username or email.');
+            setMessage(getApiErrorMessage(error, 'Registration failed. Try another username or email.'));
             console.error('Registration failed', error);
         }
     };
@@ -170,9 +190,13 @@ const Register = () => {
                 {errors.email && <div className="text-danger small mb-2">{errors.email}</div>}
                 <Input
                     label="Phone Number"
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={10}
                     value={form.phone}
                     onChange={(e) => {
-                        setForm({ ...form, phone: e.target.value });
+                        const phone = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setForm({ ...form, phone });
                         setErrors({ ...errors, phone: undefined });
                     }}
                 />

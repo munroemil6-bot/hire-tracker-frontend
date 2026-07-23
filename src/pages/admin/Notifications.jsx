@@ -17,6 +17,7 @@ const Notifications = () => {
     const [form, setForm] = useState({ message: '', kind: 'COMPANY_ANNOUNCEMENT', recipient: 'all', employee_id: '' });
     const [sending, setSending] = useState(false);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const loadData = async () => {
         try {
@@ -35,13 +36,19 @@ const Notifications = () => {
         if (!form.message.trim()) return;
         setSending(true);
         setError('');
+        setSuccess('');
         try {
-            const payload = { message: form.message, kind: form.kind };
+            const payload = {
+                message: form.message,
+                kind: form.kind,
+                recipient: form.recipient,
+            };
             if (form.recipient === 'specific' && form.employee_id) {
-                payload.employee_id = form.employee_id;
+                payload.user_id = form.employee_id;
             }
             await api.post('/notifications/', payload);
             setForm({ message: '', kind: 'COMPANY_ANNOUNCEMENT', recipient: 'all', employee_id: '' });
+            setSuccess(form.recipient === 'all' ? 'Notification sent to all employees.' : 'Notification sent to selected employee.');
             loadData();
         } catch (err) {
             setError('Failed to send notification. Please try again.');
@@ -58,6 +65,7 @@ const Notifications = () => {
             <form className="card p-3 mb-4 shadow-sm" onSubmit={handleSubmit}>
                 <h6 className="fw-semibold mb-3">Post a notification</h6>
                 {error && <div className="alert alert-danger py-2">{error}</div>}
+                {success && <div className="alert alert-success py-2">{success}</div>}
                 <div className="row g-3">
                     <div className="col-md-4">
                         <select className="form-select" value={form.kind} onChange={(e) => setForm({ ...form, kind: e.target.value })}>
@@ -74,7 +82,7 @@ const Notifications = () => {
                         <div className="col-md-4">
                             <select className="form-select" value={form.employee_id} onChange={(e) => setForm({ ...form, employee_id: e.target.value })} required>
                                 <option value="">Select employee</option>
-                                {employees.map((emp) => <option key={emp.id} value={emp.id}>{emp.user_name}</option>)}
+                                {employees.map((emp) => <option key={emp.id} value={emp.user}>{emp.user_name}</option>)}
                             </select>
                         </div>
                     )}
